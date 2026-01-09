@@ -1,10 +1,9 @@
-FROM eclipse-temurin:21.0.8_9-jdk-jammy AS builder
+FROM maven:3.9.9-openjdk-21 AS builder
 WORKDIR /opt/app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY pom.xml ./
+RUN mvn dependency:go-offline
 COPY ./src ./src
-RUN ./mvnw clean install
+RUN mvn clean install
 
 FROM eclipse-temurin:21.0.8_9-jre-jammy AS production
 WORKDIR /opt/app
